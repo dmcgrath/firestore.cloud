@@ -1,0 +1,39 @@
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        width: 100%;
+        padding: 3%;
+        background: #FF5C33;
+        border-bottom: 2px solid #FF4719;
+        border-top-style: none;
+        border-right-style: none;
+        border-left-style: none;
+        color: #fff;
+}
+.form-style input[type="submit"]:hover,
+.form-style input[type="button"]:hover{
+        background: #FF6D48;
+}
+      </style>
+   </head>
+   <body class="form-style">
+      <form name="content" onsubmit="return writeDocument()">
+         <label for="onlinename">Email or Twitter Handle</label>
+         <input type="text" id="onlinename" name="onlinename"/>
+         <label for="category">Category</label>
+         <select id="category" name="category">
+            <option value="query">Querying & Indexes</option>
+            <option value="scale">Scaling</option>
+            <option value="security">Security & Rules</option>
+            <option value="model">Data Modelling</option>
+            <option value="cost">Cost Estimation & Reduction</option>
+            <option value="tutorial">Full Tutorials</option>
+            <option value="resources">Curate content</option>
+            <option value="integrations">GCP & Firebase Integrations</option>
+            <option value="other">Other</option>
+         </select>
+         <label for="details">Optional Details</label>
+         <textarea id="details" name="details" placeholder="What type of content would you like on this site?" style="height:200px"></textarea>
+         <input type="submit" value="Submit" id="submit"/>
+      </form>
+   </body>
+</html>
