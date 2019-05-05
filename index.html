@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+   <head>
+      <title>firestore.cloud</title>
+      <!-- twitter.com/daniswrong -->
+      <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-firestore.js"></script>
+      <script>
+         var onLoadNewSnapshot = function (data, field, callback) {
+            var high_field = null;
+            data.forEach((doc)=> {
+               callback([doc]);
+               current_field = doc.data().hasOwnProperty(field) ? doc.data()[field] : null;
+               if(high_field === null || current_field > high_field){ high_field = current_field; }
+            });
+            return this.where(field, ">", high_field).onSnapshot(callback);
+         }; 
+
+         var config = {
+            apiKey: "AIzaSyAdUysjlrD7qY0p2c8ZPtnREhN7fecjvZE",
+            projectId: "daniswrong-prod",
+         };
+         firebase.initializeApp(config);
+         var db = firebase.firestore();
+
+         function writeDocument()
+         {
+            var form = document.forms.content;
+            var data = new FormData(form);
+
+            db.collection('s').add({
+               name: data.get('onlinename')
+               , category: data.get('category')
+               , details: data.get('details')
+            }).then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            });
+
+            document.getElementById('submit').disabled = true;
+            document.getElementById('submit').value = "Submission recieved, thanks!";
+
+            return false;
+         }
+      </script>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139415084-1"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         gtag('config', 'UA-139415084-1');
+      </script>
+      <style type="text/css">
+.form-style
+{
+   font: 95% Arial, Helvetica, sans-serif;
+   max-width: 400px;
+   margin: 10px auto;
+   padding: 16px;
+   background: #F7F7F7;
+}
+.form-style input[type="text"],
+.form-style textarea,
+.form-style select
+{
+   -webkit-transition: all 0.30s ease-in-out;
+   -moz-transition: all 0.30s ease-in-out;
+   -ms-transition: all 0.30s ease-in-out;
+   -o-transition: all 0.30s ease-in-out;
+   outline: none;
+   box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   width: 100%;
+   background: #fff;
+   margin-bottom: 4%;
+   border: 1px solid #ccc;
+   padding: 3%;
+   color: #555;
+   font: 95% Arial, Helvetica, sans-serif;
+}
+.form-style input[type="text"]:focus,
+.form-style textarea:focus,
+.form-style select:focus
+{
+   box-shadow: 0 0 5px #FF5C33;
+   padding: 3%;
+   border: 1px solid #FF5C33;
+}
+
+.form-style input[type="submit"],
+.form-style input[type="button"]
+{
+   box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   width: 100%;
+   padding: 3%;
+   background: #FF5C33;
+   border-bottom: 2px solid #FF4719;
+   border-top-style: none;
+   border-right-style: none;
+   border-left-style: none;
+   color: #fff;
+}
+.form-style input[type="submit"]:hover,
+.form-style input[type="button"]:hover
+{
+   background: #FF6D48;
+}
+      </style>
+   </head>
+   <body class="form-style">
+      <form name="content" onsubmit="return writeDocument()">
+         <label for="onlinename">Email or Twitter Handle</label>
+         <input type="text" id="onlinename" name="onlinename"/>
+         <label for="category">Category</label>
+         <select id="category" name="category">
+            <option value="query">Querying & Indexes</option>
+            <option value="scale">Scaling</option>
+            <option value="security">Security & Rules</option>
+            <option value="model">Data Modelling</option>
+            <option value="cost">Cost Estimation & Reduction</option>
+            <option value="tutorial">Full Tutorials</option>
+            <option value="resources">Curate content</option>
+            <option value="integrations">GCP & Firebase Integrations</option>
+            <option value="other">Other</option>
+         </select>
+         <label for="details">Optional Details</label>
+         <textarea id="details" name="details" placeholder="What type of content would you like on this site?" style="height:200px"></textarea>
+         <input type="submit" value="Submit" id="submit"/>
+      </form>
+   </body>
+</html>
